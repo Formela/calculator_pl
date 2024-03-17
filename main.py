@@ -33,6 +33,13 @@ def electronics(size, lights):
                             lights = lights                           
                            )
 
+# Trzecia strona
+@app.route('/Memy')
+def Hahaha(size, lights):
+    return render_template(
+                            'Memy.html'                      
+                           )
+
 # Obliczenia
 @app.route('/<size>/<lights>/<device>')
 def end(size, lights, device):
