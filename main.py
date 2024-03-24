@@ -1,11 +1,12 @@
+
 # Import
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
 
 def result_calculate(size, lights, device):
-# Zmienne umożliwiające obliczenie poboru energii przez urządzenia
+    # Zmienne umożliwiające obliczenie poboru energii przez urządzenia
     home_coef = 100
     light_coef = 0.04
     devices_coef = 5   
@@ -15,7 +16,6 @@ def result_calculate(size, lights, device):
 @app.route('/')
 def index():
     return render_template('index.html')
-
 # Druga strona
 @app.route('/<size>')
 def lights(size):
@@ -28,16 +28,9 @@ def lights(size):
 @app.route('/<size>/<lights>')
 def electronics(size, lights):
     return render_template(
-                            'electronics.html',
+                            'electronics.html',                           
                             size = size, 
                             lights = lights                           
-                           )
-
-# Trzecia strona
-@app.route('/Memy')
-def Hahaha(size, lights):
-    return render_template(
-                            'Memy.html'                      
                            )
 
 # Obliczenia
@@ -49,4 +42,48 @@ def end(size, lights, device):
                                                     int(device)
                                                     )
                         )
+
+
+# Trzecia strona
+@app.route('/Memy')
+def Memy(size, lights):
+    return render_template(
+                            'Memy.html'                      
+                           )
+
+# Formularz
+@app.route('/form')
+def form():
+    return render_template('form.html')
+
+# Wyniki formularza
+@app.route('/submit', methods=['POST'])
+def submit_form():
+    
+    
+
+    
+    name = request.form['name']
+    email = request.form['email']
+    password = request.form['password']
+    date = request.form['date']
+    address = request.form['address']
+
+    
+    with open('form.txt', 'a',) as f:
+        f.write(f'{name} {email} {password} {date} {address}')
+    
+    
+return render_template('form_result.html', 
+                           # Umieść tutaj zmienne
+                           name=name,
+                           email=email,
+                           password=password,
+                           date=date,
+                           address=address,
+                           )
+
+
+
+
 app.run(debug=True)
